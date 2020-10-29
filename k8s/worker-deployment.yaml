@@ -20,5 +20,5 @@ spec:
             # Cluster IP service that the worker needs to communicate with the pod
               value: redis-cluster-ip-service
             - name: REDIS_PORT
-              value: 6379
+              value: '6379'
             
