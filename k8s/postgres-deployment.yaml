@@ -20,6 +20,12 @@ spec:
       containers:
         - image: postgres
           name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                    secretKeyRef:
+                      name: pgpassword
+                      key: PGPASSWORD
           ports:
             - containerPort: 5432
             # We can access storage and this specifies how to use it in the container 
