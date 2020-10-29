@@ -15,16 +15,19 @@ spec:
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
+          # Tells k8s to get the PVC requested in the file with the claim name
             claimName: database-persistent-volume-claim
       containers:
         - image: postgres
           name: postgres
           ports:
             - containerPort: 5432
+            # We can access storage and this specifies how to use it in the container 
           volumeMounts:
             # name matches the volume entry
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
               # Subfolder where the data is stored in PVC
               # Specific to postgres
+              # <PVCpath>/postgres
               subPath: postgres
