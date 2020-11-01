@@ -1,0 +1,18 @@
+# 1. Install GCloud SDK + update kubectl
+# 2. Configure SDK with GC auth info - generated a service account and encrypted it and pushed it to Travis using the Travis CLI
+# 3. Login to docker cli
+# 4. Build test version of multi-client
+# 5. Run tests
+# 6. If success run script to build images
+# 7. Push images to docker hub
+# 8. Apply changes in k8s - git ops - on each pusj to master. Git is always in sync with the cluster
+# 9. Set latest images on each deployment
+sudo: required
+services:
+  - docker
+before_install:
+  - openssl aes-256-cbc -K $encrypted_a14841c42f12_key -iv $encrypted_a14841c42f12_iv -in multi-k8s-294316-7396803440cc.json.enc -out multi-k8s-294316-7396803440cc.json -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file service-account.json
