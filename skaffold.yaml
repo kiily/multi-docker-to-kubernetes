@@ -1,0 +1,27 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  # Deployments we want skaffold to manage
+  local:
+    # Do not push images in dev mode - skaffold pushes by default
+    push: false
+  # containers to manage are know as artifacts
+  artifacts:
+    - image: kiily/multi-client-k8s
+      context: client
+      docker: 
+        dockerfile: Dockerfile.dev
+      #  mode 2 - find js file changes and throw it into the container
+      sync:
+        '**/*.js': .
+        '**/*.css': .
+        '**/*.html': .
+deploy:
+  kubectl:
+    manifests:
+      - k8s/client-deployment.yaml
+      - k8s/server-deployment.yaml
+      - k8s/worker-deployment.yaml
+      - k8s/server-cluster-ip-service.yaml
+      - k8s/client-cluster-ip-service.yaml
+      - k8s/worker-cluster-ip-service.yaml
