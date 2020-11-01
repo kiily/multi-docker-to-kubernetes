@@ -16,6 +16,18 @@ build:
         '**/*.js': .
         '**/*.css': .
         '**/*.html': .
+    - image: kiily/multi-server-k8s
+      context: server
+      docker:
+        dockerfifle: Dockerfile.dev
+      sync:
+        '**/*.js': .
+    - image: kiily/multi-worker-k8s
+      context: worker
+      docker:
+        dockerfifle: Dockerfile.dev
+      sync:
+        '**/*.js': .
 deploy:
   kubectl:
     manifests:
@@ -24,4 +36,3 @@ deploy:
       - k8s/worker-deployment.yaml
       - k8s/server-cluster-ip-service.yaml
       - k8s/client-cluster-ip-service.yaml
-      - k8s/worker-cluster-ip-service.yaml
