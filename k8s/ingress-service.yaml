@@ -6,8 +6,20 @@ metadata:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/use-regex: 'true'
       nginx.ingress.kubernetes.io/rewrite-target: /$1
+      # HTTPS
+      # certmanager.k8s.io/cluster-issuer: 'letsencrypt-prod'
+      # Force to always serve HTTPS traffic
+      # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
+# HTTPS
+# tls:
+#   - hosts:
+#       - domainname.com
+#       - www.domainname.com
+#     secretName: domainname (secret name in certificate.yaml)
   rules:
+  # HTTPS
+  #  - host: domainname.com - apply the rules below and copy it for the www case as well
       - http:
           paths:
             - path: /?(.*)
@@ -18,3 +30,4 @@ spec:
               backend:
                     serviceName: server-cluster-ip-service
                     servicePort: 5000
+# Once we have a cert for https we need to add it here for it to work
