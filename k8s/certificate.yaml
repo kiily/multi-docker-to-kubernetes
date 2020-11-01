@@ -1,0 +1,23 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: domainname-tls
+spec:
+# Specifies where the secret is created
+  secretName: domainname
+  # issuer we defined
+  issuerRef: letsencrypt-prod
+  kind: ClusterIssuer
+  commonName: domainname.com
+  # list of domains associated with the certificate
+  dnsNames:
+    - domainname.com
+    - www.domainname.com
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+          # domains that the verification process will try to access - needs to map to the dnsNames for cert to be valid
+        domains:
+          - domainname.com
+          - www.domainname.com
